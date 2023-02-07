@@ -1,7 +1,6 @@
 const container = document.getElementById("area-propriedades");
 
-class propriedade{
-   
+class propriedade{   
     constructor(title, endereco, descricao, preco , pathImagem, data){
         this.title = title;
         this.endereco = endereco;
@@ -17,7 +16,7 @@ const propriedades = Array.of(new propriedade("Casa teste", "Rua eurico", "teste
 
 propriedades.forEach(prop => {
     container.innerHTML += `
-    <div class="postagem">
+    <div class="propriedade">
         <h2>${prop.title}</h2>
         <span class="data-postagem">postado ${prop.data}</span>
         <img width="620px" src="${prop.pathImagem}">
@@ -35,3 +34,16 @@ propriedades.forEach(prop => {
 `;
 
 });
+
+// const pro_recentes = document.getElementById("recentes");
+
+// propriedades.slice(0, 2).forEach(prop => {
+//     pro_recentes.innerHTML += ` 
+        
+//     <div class="propriedades-lateral">
+//         <p>${prop.title}.</p>
+//         <a href="">Leia mais</a>
+//     </div>
+    
+// `;
+// });

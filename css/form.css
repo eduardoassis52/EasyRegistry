@@ -1,0 +1,29 @@
+form {
+    width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+  }
+label {
+	font-weight: bold;
+	margin-top: 10px;
+	display: block;
+}
+input[type="text"],textarea {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 10px;
+	margin-top: 10px;
+	font-size: 16px;
+	border: none;
+	border-bottom: 2px solid gray;
+}
+button[type="submit"] {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background-color: rgb(29, 130, 163);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
