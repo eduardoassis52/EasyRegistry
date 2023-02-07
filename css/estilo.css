@@ -161,7 +161,7 @@ textarea {
 
 
 
-.disabled{
+#area-cabecalho a.disabled{
 	color: #f7b600;
 	background: #FFF;
 	text-decoration: none;
