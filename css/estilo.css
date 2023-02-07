@@ -29,9 +29,19 @@ body {
 	padding: 15px;
 }
 
+#area-principalHome {
+	width: 920px;
+	margin: auto;
+	padding: 15px;
+}
+
 #area-propriedades {
 	width: 660px;
 	float: left;
+}
+
+#area-propriedadesHome {
+	width: 920px;
 }
 
 #area-lateral {
@@ -39,7 +49,7 @@ body {
 	float: right;
 }
 
-.postagem{
+.propriedade{
 	padding: 20px;
 	margin-bottom: 20px;
 	background: white;
@@ -51,7 +61,7 @@ body {
 	margin-bottom: 20px;
 }
 
-.postagem-lateral {
+.propriedades-lateral {
 	font-size: 0.8em;
 	padding: 5px;
 	border-bottom: 1px dotted #CCC;
@@ -120,19 +130,7 @@ h3 {
 	display: block;
 }
 
-form {
-    width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f2f2f2;
-  }
-label {
-	font-weight: bold;
-	margin-top: 10px;
-	display: block;
-}
-input[type="text"],textarea {
-
+textarea {
 	box-sizing: border-box;
 	width: 100%;
 	padding: 10px;
@@ -140,15 +138,6 @@ input[type="text"],textarea {
 	font-size: 16px;
 	border: none;
 	border-bottom: 2px solid gray;
-}
-button[type="submit"] {
-	margin-top: 20px;
-	padding: 10px 20px;
-	background-color: rgb(29, 130, 163);
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
 }
 
 .botoes{
@@ -172,6 +161,12 @@ button[type="submit"] {
 
 
 
+.disabled{
+	color: #f7b600;
+	background: #FFF;
+	text-decoration: none;
+	pointer-events: none;
+}
 
 
 
