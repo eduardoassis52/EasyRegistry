@@ -7,28 +7,30 @@ contract LandRegistry {
     string laddress;
     uint256 lamount;
     uint256 key;
-    bool isGovtApproved;
     bool isAvailable;
     string title;
     string description;
     string image;
     string contato;
+    string escritura;
 
-    constructor(address payable _id, string memory _laddress, uint256 _lamount, uint256 _key, bool _isGovtApproved, bool _isAvailable, string memory _description, string memory _title, string memory _image, string memory _contato){
+    constructor(address payable _id, string memory _laddress, uint256 _lamount, uint256 _key,
+      bool _isAvailable, string memory _description, string memory _title,
+      string memory _image, string memory _contato,  string memory _escritura){
         id = _id;
         laddress = _laddress;
         lamount = _lamount;
         key = _key;
-        isGovtApproved = _isGovtApproved;
         isAvailable = _isAvailable;
         description = _description;
         title = _title;
         image = _image;
         contato = _contato;
+        escritura = _escritura;
     }
 
-    function get() view public returns(address payable, string memory, uint256, uint256, bool, bool, string memory){
-        return (id, laddress, lamount, key, isGovtApproved, isAvailable, description);
+    function get() view public returns(address payable, string memory, uint256, uint256, bool, string memory, string memory, string memory, string memory, string memory){
+        return (id, laddress, lamount, key, isAvailable, description, title, image, contato, escritura);
     }
 
     function get_isAvailable() view public returns(bool){
@@ -52,7 +54,6 @@ contract LandRegistry {
     }
 
     function approved() public{
-        isGovtApproved = true;
         isAvailable = true;
     }
 
@@ -79,27 +80,29 @@ contract LandRegistryFactory {
         string memory _description,
         string memory _title,
         string memory _image,
-        string memory _contato
+        string memory _contato,
+        string memory _escritura
     ) public returns (bool) {
         LandRegistry terra = new LandRegistry(
             _id,
             _laddress,
             _lamount,
             lands.length,
-            false,
-            false,
+            true,
             _description,
             _title,
             _image,
-            _contato
+            _contato,
+            _escritura
         );
         lands.push(terra);
+        user_properties[msg.sender].assetList.push(lands.length);
         emit event_registration();
         return true;
     }
 
     struct my_properties {
-        LandRegistry[] assetList;
+        uint[] assetList;
     }
 
     modifier landowner(uint256 _id) {
@@ -112,7 +115,11 @@ contract LandRegistryFactory {
         _;
     }
 
-    mapping(address => my_properties) user_properties;
+    function propriedades_usuario(address usuario) view public returns (uint[]  memory) {
+        return user_properties[usuario].assetList;
+    }
+    
+    mapping(address => my_properties)  user_properties ;
 
     function validate(uint index, bool status) landadmin() public {
         if (status) {
@@ -120,22 +127,38 @@ contract LandRegistryFactory {
         }
     }
 
+    function todasPropriedades() view public returns(LandRegistry[] memory){
+        return lands;
+    }
+
     function landInfo(uint256 id)
         public
         view
         returns (
-            address payable,
-            string memory,
-            uint256,
-            uint256,
-            bool,
-            bool,
-            string memory
+            address payable _owner,
+            string memory _laddress,
+            uint256 _lamount,
+            uint256 _key,
+            bool _isAvaliable,
+            string memory _decription,      
+            string memory title,
+            string memory image,
+            string memory contato,
+            string memory escritura
+
         )
     {
         return (
             lands[id].get()
         );
+    }
+
+    function casaVenda(uint256 _id) public{
+        lands[_id].set_isAvailable(true);
+    }
+
+    function tiraCasaVenda(uint256 _id) public{
+        lands[_id].set_isAvailable(false);
     }
 
     function buyProperty(uint256 _id) public payable landowner(_id){
@@ -146,7 +169,7 @@ contract LandRegistryFactory {
         );
         lands[_id].set_id(payable(msg.sender));
         lands[_id].set_isAvailable(false);
-        user_properties[msg.sender].assetList.push(lands[_id]);
+        user_properties[msg.sender].assetList.push(_id);
         emit event_buy();
     }
 }

@@ -201,61 +201,43 @@ accounts = provider.listAccounts();
 const signer = provider.getSigner(accounts[0]);
 const contrato = new ethers.Contract(Vote_Contract_Address, Vote_Contract_ABI, signer);
 
-const container = document.getElementById("area-propriedades");
 
-class propriedade{   
-    constructor(title, endereco, descricao, preco , pathImagem, data, disponivelVenda){
-        this.title = title;
-        this.endereco = endereco;
-        this.descricao = descricao;
-        this.preco =preco ;
-        this.pathImagem = pathImagem;
-        this.data = data;
-        this.disponivelVenda = disponivelVenda;
-    }    
-}
-const compraPropriedade = async(event) => {
+const registraPropriedade = async() => {
 	
+	const title = document.querySelector("#title");
+	const address = document.querySelector("#address");
+	const description = document.querySelector("#description");
+	const price = document.querySelector("#price");
+	const path = document.querySelector("#path");
+	const escritura = document.querySelector("#escritura");
+	const contato = document.querySelector("#contato");
+    // update button value
+    btn_enviar.value = "...";
 
-	console.log(event.target.value)
+    // window.alert("Propriedade enviada para Análise");
+        /* 5.3 Set vote details in smart contract */
 
-	
-    bool = await contrato.buyProperty()
+	console.log("Endereco: "  + signer.getAddress() + " Adress: " + address.value + " Preço :" + price.value + " Descricao: " +   description.value + " Title: " + title.value + " Path: " + path.value);
+    bool = await contrato.Registration(signer.getAddress(), address.value, price.value,  description.value, title.value, path.value, contato.value, escritura.value )
 	if (bool) {
 		window.alert("Funcionou")
-		  
+		btn_enviar.value = "Enviar";
+		// update button value
+        window.alert("Teste");
+        title.value = ""
+        address.value = ""
+        description.value = ""
+        price.value = ""
+        path.value = ""
+        escritura.value = ""
+        contato.value = ""        
 		return
 	} else {
 		window.alert("Ocorreu um Erro")
 	}
 }
 
-const listarPropriedade = async() => {
-    properties_list = await contrato.todasPropriedades()
-    for (i=0; i<properties_list.length; i++){
-        prop = await contrato.landInfo(i)
-        if (prop._isAvaliable) {
-            container.innerHTML += `
-                <div class="propriedade">
-                <h2>${prop._title}</h2>
-                <span class="data-postagem">postado DATA QUALQUER</span>
-                <img width="620px" src="${prop._image}">
-                <h4>Descrição:</h4>
-                <p>
-                    ${prop._decription}
-                </p>
-                <h4>Preço:</h4>
-                <p>
-                ${parseInt(prop._lamount._hex, 16)}
-                </p>
-                
-                <button value="${i}" onClick="compraPropriedade(event)" class="botoes">Comprar</button>
-                </div>
-            `;
-        }
-    }
-}
+// Variáveis para manipulação dos botões
+const btn_enviar = document.querySelector("#enviar");
 
-listarPropriedade()
-
-//btn_enviar.addEventListener("click", compraPropriedade);
+btn_enviar.addEventListener("click", registraPropriedade);

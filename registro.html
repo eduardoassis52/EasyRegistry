@@ -5,6 +5,8 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/estilo.css">
   <link rel="stylesheet" type="text/css" href="css/form.css">
+  <script src="js/registro.js" defer></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 </head>
 <body>
 
@@ -12,15 +14,12 @@
 		
 		<div id="area-logo">
 			<h1>Easy<span class="branco">Regitry</span></h1>
-			<button>Login</button>
-			<button>Registre-se</button>
 		</div>
 		<div id="area-menu">
 			<a href="index.html">Home</a>
 			<a href="venda.html">Propriedades a Venda</a>
 			<a href="propriedades.html">Suas Propriedades</a>
 			<a href="registro.html" class="disabled">Registro Propriedade</a>
-			<a href="historico.html" >Historico</a>
 		</div>
 
 	</div>
@@ -44,14 +43,22 @@
               <input type="text" id="price" name="price">
             </div>
             <div>
-              <label for="path">Caminho:</label>
+              <label for="path">Foto:</label>
               <input type="text" id="path" name="path">
             </div>
-            <div class="btnRegistro">
-                <button type="submit">Enviar</button>
+            <div>
+              <label for="escritura">Codigo Escritura:</label>
+              <input type="text" id="escritura" name="escritura">
             </div>
-          </form>
-          
+
+            <div>
+              <label for="contato">Contato:</label>
+              <input type="text" id="contato" name="contato">
+            </div>
+            <div class="btnRegistro" >
+                <input type="button" value="Enviar" id="enviar"  ></input>
+            </div>
+          </form>          
 	</div>
 
 </body>

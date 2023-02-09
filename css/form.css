@@ -18,7 +18,7 @@ input[type="text"],textarea {
 	border: none;
 	border-bottom: 2px solid gray;
 }
-button[type="submit"] {
+input[type="button"] {
 	margin-top: 20px;
 	padding: 10px 20px;
 	background-color: rgb(29, 130, 163);
