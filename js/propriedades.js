@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0xc0C7b0985E14de871a1f8aDCBDD141f6FDEb3277";
+const Vote_Contract_Address = "0xF82808C6bAdCDC71A3212c996A082dB563F8be6F";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -21,13 +21,46 @@ const Vote_Contract_ABI = [
 	},
 	{
 		"anonymous": false,
-		"inputs": [],
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			}
+		],
 		"name": "event_buy",
 		"type": "event"
 	},
 	{
 		"anonymous": false,
-		"inputs": [],
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "event_changed_status",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
 		"name": "event_registration",
 		"type": "event"
 	},
@@ -239,7 +272,6 @@ const listarPropriedade = async() => {
 				<p>
 				${parseInt(prop._lamount._hex, 16)}
 				</p>
-
 				
 				<button class="botoes" value="${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
 				</div>
@@ -250,3 +282,22 @@ const listarPropriedade = async() => {
 }
 
 listarPropriedade()
+
+
+contrato.on("event_registration", async (owner) => {
+	if (owner == await signer.getAddress()){
+		location.reload()
+	}
+})
+
+contrato.on("event_buy", async (owner, buyer) => {
+	if (owner == await signer.getAddress() || buyer == await signer.getAddress()){
+		location.reload()
+	}
+})
+
+contrato.on("event_changed_status", async (owner) => {
+	if (owner == await signer.getAddress()){
+		location.reload()
+	}
+})

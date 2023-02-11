@@ -73,9 +73,9 @@ contract LandRegistry {
 
 contract LandRegistryFactory {
     //Events
-
-    event event_registration();//
-    event event_buy();//
+    event event_registration(address owner);
+    event event_buy(address owner, address buyer);
+    event event_changed_status(address owner);
 
     //Atributos
     LandRegistry[] lands;
@@ -114,20 +114,21 @@ contract LandRegistryFactory {
             _escritura
         );
         lands.push(terra);//Adiciona a terra as propriedades do contrato
-        emit event_registration();//Envia evonto de registro 
+        emit event_registration(_id);//Envia evonto de registro 
         return true;
     }
 
     function buyProperty(uint256 _id) public payable landowner(_id){
         require((lands[_id].get_isAvailable()));
         require(msg.value == (lands[_id].get_lamount() * 1000000000000000000));//
+        address oldOwner = lands[_id].get_id();
         lands[_id].get_id().transfer(
             lands[_id].get_lamount() * 1000000000000000000
         );
         lands[_id].set_id(payable(msg.sender));
         lands[_id].set_isAvailable(false);
 
-        emit event_buy();
+        emit event_buy(oldOwner, msg.sender);
     }
     
     function todasPropriedades() view public returns(LandRegistry[] memory){
@@ -159,5 +160,6 @@ contract LandRegistryFactory {
     function mudaStatusCasa(uint256 _id) public{
         bool status = lands[_id].get_isAvailable();
         lands[_id].set_isAvailable(!status);
+        emit event_changed_status(lands[_id].get_id());
     }
 }
