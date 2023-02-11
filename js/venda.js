@@ -2,6 +2,23 @@
 const Vote_Contract_Address = "0x26cb54611eBAF17a9E1F133069C0c6549B0EaF30";
 const Vote_Contract_ABI = [
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "event_buy",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "event_registration",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address payable",
@@ -17,16 +34,6 @@ const Vote_Contract_ABI = [
 				"internalType": "uint256",
 				"name": "_lamount",
 				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_key",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "_isAvailable",
-				"type": "bool"
 			},
 			{
 				"internalType": "string",
@@ -54,97 +61,7 @@ const Vote_Contract_ABI = [
 				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "approved",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "bought",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "get",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "get_id",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "get_isAvailable",
+		"name": "Registration",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -152,31 +69,31 @@ const Vote_Contract_ABI = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "get_lamount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "address payable",
+				"internalType": "uint256",
 				"name": "_id",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
-		"name": "set_id",
+		"name": "buyProperty",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "casaVenda",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -184,12 +101,126 @@ const Vote_Contract_ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			}
+		],
+		"name": "landInfo",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_laddress",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_lamount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_key",
+				"type": "uint256"
+			},
+			{
 				"internalType": "bool",
-				"name": "_isAvailable",
+				"name": "_isAvaliable",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "_decription",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "image",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "contato",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "escritura",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "usuario",
+				"type": "address"
+			}
+		],
+		"name": "propriedades_usuario",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "tiraCasaVenda",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "todasPropriedades",
+		"outputs": [
+			{
+				"internalType": "contract LandRegistry[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "status",
 				"type": "bool"
 			}
 		],
-		"name": "set_isAvailable",
+		"name": "validate",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -220,7 +251,7 @@ const compraPropriedade = async(event) => {
 	console.log(event.target.value)
 
 	
-    bool = await contrato.buyProperty()
+    bool = await contrato.buyProperty(event.target.value)
 	if (bool) {
 		window.alert("Funcionou")
 		  
@@ -237,17 +268,24 @@ const listarPropriedade = async() => {
         if (prop._isAvaliable) {
             container.innerHTML += `
                 <div class="propriedade">
-                <h2>${prop._title}</h2>
-                <span class="data-postagem">postado DATA QUALQUER</span>
-                <img width="620px" src="${prop._image}">
+                <h2>${prop.title}</h2>
+                <img width="620px" src="${prop.image}">
                 <h4>Descrição:</h4>
                 <p>
                     ${prop._decription}
+                </p>
+				<h4>Endereco:</h4>
+                <p>
+                    ${prop._laddress}
                 </p>
                 <h4>Preço:</h4>
                 <p>
                 ${parseInt(prop._lamount._hex, 16)}
                 </p>
+				<h4>Contato do Vendedor:</h4>
+				<p>
+				${parseInt(prop.contato)}
+				</p>
                 
                 <button value="${i}" onClick="compraPropriedade(event)" class="botoes">Comprar</button>
                 </div>
