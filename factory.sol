@@ -63,15 +63,36 @@ contract LandRegistry {
 }
 
 contract LandRegistryFactory {
+    //Events
+
+    event event_registration();//
+    event event_buy();//
+
+    //Atributos
     LandRegistry[] lands;
-
-    event event_registration();
-    event event_buy();
-
     address admin;
-    constructor(){
-        admin = msg.sender;
+    mapping(address => my_properties)  user_properties ;
+    struct my_properties {
+        uint[] assetList;
     }
+
+    //Modifiers
+    modifier landowner(uint256 _id) {
+        require(msg.sender != lands[_id].get_id(),"Nao pode comprar sua propria propriedade");
+        _;
+    }
+
+    // modifier landadmin() {
+    //     require(msg.sender != admin, "Voce nao faz parte do governo");
+    //     _;
+    // }
+
+
+    constructor(){
+        admin = msg.sender;//
+    }
+    
+    //Functions
 
     function Registration(
         address payable _id,
@@ -95,42 +116,32 @@ contract LandRegistryFactory {
             _contato,
             _escritura
         );
-        lands.push(terra);
-        user_properties[msg.sender].assetList.push(lands.length);
-        emit event_registration();
+        lands.push(terra);//Adiciona a terra as propriedades do contrato
+        user_properties[msg.sender].assetList.push(lands.length);//Adiciona a terra as terras em posse do usuário
+        emit event_registration();//Envia evonto de registro 
         return true;
-    }
-
-    struct my_properties {
-        uint[] assetList;
-    }
-
-    modifier landowner(uint256 _id) {
-        require(msg.sender != lands[_id].get_id(),"Nao pode comprar seu proprio produto");
-        _;
-    }
-
-    modifier landadmin() {
-        require(msg.sender != admin, "Voce nao faz parte do governo");
-        _;
     }
 
     function propriedades_usuario(address usuario) view public returns (uint[]  memory) {
         return user_properties[usuario].assetList;
     }
-    
-    mapping(address => my_properties)  user_properties ;
 
-    function validate(uint index, bool status) landadmin() public {
-        if (status) {
-            lands[index].approved();
-        }
+    function buyProperty(uint256 _id) public payable landowner(_id){
+        require((lands[_id].get_isAvailable()));
+        require(msg.value == (lands[_id].get_lamount() * 1000000000000000000));//
+        lands[_id].get_id().transfer(
+            lands[_id].get_lamount() * 1000000000000000000
+        );//
+        lands[_id].set_id(payable(msg.sender));
+        lands[_id].set_isAvailable(false);
+        user_properties[msg.sender].assetList.push(_id);
+        emit event_buy();
     }
-
+    
     function todasPropriedades() view public returns(LandRegistry[] memory){
         return lands;
     }
-
+        
     function landInfo(uint256 id)
         public
         view
@@ -153,6 +164,8 @@ contract LandRegistryFactory {
         );
     }
 
+
+
     function casaVenda(uint256 _id) public{
         lands[_id].set_isAvailable(true);
     }
@@ -161,15 +174,9 @@ contract LandRegistryFactory {
         lands[_id].set_isAvailable(false);
     }
 
-    function buyProperty(uint256 _id) public payable landowner(_id){
-        require((lands[_id].get_isAvailable()));
-        require(msg.value == (lands[_id].get_lamount() * 1000000000000000000));
-        lands[_id].get_id().transfer(
-            lands[_id].get_lamount() * 1000000000000000000
-        );
-        lands[_id].set_id(payable(msg.sender));
-        lands[_id].set_isAvailable(false);
-        user_properties[msg.sender].assetList.push(_id);
-        emit event_buy();
-    }
+    // function validate(uint index, bool status) landadmin() public {
+    //     if (status) {
+    //         lands[index].approved();
+    //     }
+    // }
 }

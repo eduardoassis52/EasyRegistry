@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x26cb54611eBAF17a9E1F133069C0c6549B0EaF30";
+const Vote_Contract_Address = "0x6C8b3ca5028705a691818265A047883D1Cc27224";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [],
@@ -205,24 +205,6 @@ const Vote_Contract_ABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "index",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "status",
-				"type": "bool"
-			}
-		],
-		"name": "validate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ];
