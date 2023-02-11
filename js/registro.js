@@ -1,6 +1,19 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x6C8b3ca5028705a691818265A047883D1Cc27224";
+const Vote_Contract_Address = "0xc0C7b0985E14de871a1f8aDCBDD141f6FDEb3277";
 const Vote_Contract_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "buyProperty",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -17,6 +30,19 @@ const Vote_Contract_ABI = [
 		"inputs": [],
 		"name": "event_registration",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "mudaStatusCasa",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -69,32 +95,6 @@ const Vote_Contract_ABI = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "buyProperty",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "casaVenda",
-		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -163,38 +163,6 @@ const Vote_Contract_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "usuario",
-				"type": "address"
-			}
-		],
-		"name": "propriedades_usuario",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "tiraCasaVenda",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "todasPropriedades",
 		"outputs": [
@@ -224,11 +192,10 @@ const registraPropriedade = async() => {
 	const path = document.querySelector("#path");
 	const escritura = document.querySelector("#escritura");
 	const contato = document.querySelector("#contato");
+
     // update button value
     btn_enviar.value = "...";
 
-    // window.alert("Propriedade enviada para Análise");
-        /* 5.3 Set vote details in smart contract */
 
 	console.log("Endereco: "  + signer.getAddress() + " Adress: " + address.value + " Preço :" + price.value + " Descricao: " +   description.value + " Title: " + title.value + " Path: " + path.value);
     bool = await contrato.Registration(signer.getAddress(), address.value, price.value,  description.value, title.value, path.value, contato.value, escritura.value )

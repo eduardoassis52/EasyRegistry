@@ -1,6 +1,19 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x6C8b3ca5028705a691818265A047883D1Cc27224";
+const Vote_Contract_Address = "0xc0C7b0985E14de871a1f8aDCBDD141f6FDEb3277";
 const Vote_Contract_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "buyProperty",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -17,6 +30,19 @@ const Vote_Contract_ABI = [
 		"inputs": [],
 		"name": "event_registration",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "mudaStatusCasa",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -69,32 +95,6 @@ const Vote_Contract_ABI = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "buyProperty",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "casaVenda",
-		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -163,38 +163,6 @@ const Vote_Contract_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "usuario",
-				"type": "address"
-			}
-		],
-		"name": "propriedades_usuario",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "tiraCasaVenda",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "todasPropriedades",
 		"outputs": [
@@ -233,7 +201,7 @@ const compraPropriedade = async(event) => {
 	console.log(event.target.value)
 
 	
-    bool = await contrato.buyProperty(event.target.value)
+    bool = await contrato.buyProperty(event.target.value, {gasLimit: 3000000})
 	if (bool) {
 		window.alert("Funcionou")
 		  
@@ -245,8 +213,10 @@ const compraPropriedade = async(event) => {
 
 const listarPropriedade = async() => {
     properties_list = await contrato.todasPropriedades()
+	
     for (i=0; i<properties_list.length; i++){
         prop = await contrato.landInfo(i)
+		console.log(prop)
         if (prop._isAvaliable) {
             container.innerHTML += `
                 <div class="propriedade">

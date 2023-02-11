@@ -1,6 +1,19 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x6C8b3ca5028705a691818265A047883D1Cc27224";
+const Vote_Contract_Address = "0xc0C7b0985E14de871a1f8aDCBDD141f6FDEb3277";
 const Vote_Contract_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "buyProperty",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -17,6 +30,19 @@ const Vote_Contract_ABI = [
 		"inputs": [],
 		"name": "event_registration",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "mudaStatusCasa",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -69,32 +95,6 @@ const Vote_Contract_ABI = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "buyProperty",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "casaVenda",
-		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -163,38 +163,6 @@ const Vote_Contract_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "usuario",
-				"type": "address"
-			}
-		],
-		"name": "propriedades_usuario",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "tiraCasaVenda",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "todasPropriedades",
 		"outputs": [
@@ -228,52 +196,55 @@ class propriedade{
     }    
 }
 
-// const trocaStatusPropriedade = async(event) => {
+const trocaStatusPropriedade = async(event) => {
 	
 
-// 	console.log(event.target.value)
+	console.log(event.target.value)
 
 	
-//     bool = await contrato.buyProperty(event.target.value)
-// 	if (bool) {
-// 		window.alert("Funcionou")
+    bool = await contrato.mudaStatusCasa(event.target.value)
+	if (bool) {
+		window.alert("Funcionou")
 		  
-// 		return
-// 	} else {
-// 		window.alert("Ocorreu um Erro")
-// 	}
-// }
+		return
+	} else {
+		window.alert("Ocorreu um Erro")
+	}
+}
 
 
 const listarPropriedade = async() => {
-    properties_list = await contrato.propriedades_usuario(signer.getAddress())
+
+    properties_list = await contrato.todasPropriedades()
     console.log(properties_list)
     for (i=0; i<properties_list.length; i++){
         prop = await contrato.landInfo(i)
+		console.log("Owner: " + prop._owner + " - Adress: " +  await signer.getAddress() )
 
-
-		console.log(prop)
-		container.innerHTML += `
-			<div class="propriedade">
-			<h2>${prop.title}</h2>
-			<img width="620px" src="${prop.image}">
-			<h4>Descrição:</h4>
-			<p>
-				${prop._decription}
-			</p>
-			<h4>Endereço:</h4>
+		if(prop._owner === await signer.getAddress()){
+			console.log(prop)
+			container.innerHTML += `
+				<div class="propriedade">
+				<h2>${prop.title}</h2>
+				<img width="620px" src="${prop.image}">
+				<h4>Descrição:</h4>
 				<p>
-					${prop._laddress}
+					${prop._decription}
 				</p>
-			<h4>Preço:</h4>
-			<p>
-			${parseInt(prop._lamount._hex, 16)}
-			</p>
+				<h4>Endereço:</h4>
+					<p>
+						${prop._laddress}
+					</p>
+				<h4>Preço:</h4>
+				<p>
+				${parseInt(prop._lamount._hex, 16)}
+				</p>
 
-			
-			<button class="botoes" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
-			</div>
-		`;		//value="${i}" onClick="trocaStatusPropriedade(event)"  
+				
+				<button class="botoes" value="${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
+				</div>
+			`;	
+		}
     }
 
 }
