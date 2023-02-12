@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0xF82808C6bAdCDC71A3212c996A082dB563F8be6F";
+const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -268,9 +268,9 @@ const listarPropriedade = async() => {
 					<p>
 						${prop._laddress}
 					</p>
-				<h4>Preço:</h4>
+				<h4>Preço (Eth):</h4>
 				<p>
-				${parseInt(prop._lamount._hex, 16)}
+				${BigInt(parseInt((prop._lamount/ (10**18)._hex, 16)))}
 				</p>
 				
 				<button class="botoes" value="${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>

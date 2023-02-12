@@ -120,10 +120,10 @@ contract LandRegistryFactory {
 
     function buyProperty(uint256 _id) public payable landowner(_id){
         require((lands[_id].get_isAvailable()));
-        require(msg.value == (lands[_id].get_lamount() * 1000000000000000000));//
-        address oldOwner = lands[_id].get_id();
-        lands[_id].get_id().transfer(
-            lands[_id].get_lamount() * 1000000000000000000
+        require(msg.value >= (lands[_id].get_lamount()));//
+        address payable oldOwner = lands[_id].get_id();
+        oldOwner.transfer(
+            lands[_id].get_lamount()
         );
         lands[_id].set_id(payable(msg.sender));
         lands[_id].set_isAvailable(false);

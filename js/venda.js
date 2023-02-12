@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0xF82808C6bAdCDC71A3212c996A082dB563F8be6F";
+const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -233,8 +233,9 @@ const compraPropriedade = async(event) => {
 
 	console.log(event.target.value)
 
-	
-    bool = await contrato.buyProperty(event.target.value, {gasLimit: 3000000})
+	prop = await contrato.landInfo(event.target.value)
+	console.log(prop)
+    bool = await contrato.buyProperty(event.target.value,{ value:prop._lamount.toString() })
 	if (bool) {
 		window.alert("Funcionou")
 		  
@@ -263,9 +264,9 @@ const listarPropriedade = async() => {
                 <p>
                     ${prop._laddress}
                 </p>
-                <h4>Preço:</h4>
+                <h4>Preço (Eth):</h4>
                 <p>
-                ${parseInt(prop._lamount._hex, 16)}
+                ${parseInt((prop._lamount._hex/ (10**18)), 16)}
                 </p>
 				<h4>Contato do Vendedor:</h4>
 				<p>

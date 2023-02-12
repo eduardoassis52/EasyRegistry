@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0xF82808C6bAdCDC71A3212c996A082dB563F8be6F";
+const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -231,7 +231,7 @@ const registraPropriedade = async() => {
 
 
 	console.log("Endereco: "  + signer.getAddress() + " Adress: " + address.value + " Preço :" + price.value + " Descricao: " +   description.value + " Title: " + title.value + " Path: " + path.value);
-    bool = await contrato.Registration(signer.getAddress(), address.value, price.value,  description.value, title.value, path.value, contato.value, escritura.value )
+    bool = await contrato.Registration(signer.getAddress(), address.value, BigInt(price.value * (10**18)),  description.value, title.value, path.value, contato.value, escritura.value )
 	if (bool) {
 		btn_enviar.value = "Enviar";
         title.value = ""
