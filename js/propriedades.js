@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
+const Vote_Contract_Address = "0xB747f0B044C10530Be1903821aEb5ed0a3287925";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -296,8 +296,8 @@ listarPropriedade()
 // 	}
 // })
 
-contrato.on("event_changed_status", async (owner) => {
-	if (owner == await signer.getAddress()){
-		window.alert("O status de sua propriedade foi alterada");
-	}
-})
+// contrato.on("event_changed_status", async (owner) => {
+// 	if (owner == await signer.getAddress()){
+// 		window.alert("O status de sua propriedade foi alterada");
+// 	}
+// })

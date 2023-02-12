@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
+const Vote_Contract_Address = "0xB747f0B044C10530Be1903821aEb5ed0a3287925";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -113,11 +113,6 @@ const Vote_Contract_ABI = [
 				"internalType": "string",
 				"name": "_contato",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_escritura",
-				"type": "string"
 			}
 		],
 		"name": "Registration",
@@ -185,11 +180,6 @@ const Vote_Contract_ABI = [
 				"internalType": "string",
 				"name": "contato",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "escritura",
-				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -228,9 +218,7 @@ const registraPropriedade = async() => {
 
     // update button value
     btn_enviar.value = "...";
-
-
-	console.log("Endereco: "  + signer.getAddress() + " Adress: " + address.value + " Preço :" + price.value + " Descricao: " +   description.value + " Title: " + title.value + " Path: " + path.value);
+	
     bool = await contrato.Registration(signer.getAddress(), address.value, BigInt(price.value * (10**18)),  description.value, title.value, path.value, contato.value )
 	if (bool) {
 		btn_enviar.value = "Enviar";

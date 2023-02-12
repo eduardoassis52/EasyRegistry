@@ -1,5 +1,5 @@
 //Informações do Contrato
-const Vote_Contract_Address = "0x31d259975258AF5329aBBB985E48697845eC5cE1";
+const Vote_Contract_Address = "0xB747f0B044C10530Be1903821aEb5ed0a3287925";
 const Vote_Contract_ABI = [
 	{
 		"inputs": [
@@ -113,11 +113,6 @@ const Vote_Contract_ABI = [
 				"internalType": "string",
 				"name": "_contato",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_escritura",
-				"type": "string"
 			}
 		],
 		"name": "Registration",
@@ -184,11 +179,6 @@ const Vote_Contract_ABI = [
 			{
 				"internalType": "string",
 				"name": "contato",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "escritura",
 				"type": "string"
 			}
 		],
@@ -283,14 +273,14 @@ const listarPropriedade = async() => {
 listarPropriedade()
 
 //btn_enviar.addEventListener("click", compraPropriedade);
-contrato.on("event_registration", async () => {
-	window.location.href = '../venda.html'
-})
+// contrato.on("event_registration", async () => {
+// 	window.location.href = '../venda.html'
+// })
 
-contrato.on("event_buy", async () => {
-	window.location.href = '../venda.html'
-})
+// contrato.on("event_buy", async () => {
+// 	window.location.href = '../venda.html'
+// })
 
-contrato.on("event_changed_status", async () => {
-	window.location.href = '../venda.html'
-})
+// contrato.on("event_changed_status", async () => {
+// 	window.location.href = '../venda.html'
+// })
