@@ -270,7 +270,7 @@ const listarPropriedade = async() => {
 					</p>
 				<h4>Preço (Eth):</h4>
 				<p>
-				${BigInt(parseInt((prop._lamount/ (10**18)._hex, 16)))}
+				${parseInt(prop._lamount._hex, 16)/ (10**18)}
 				</p>
 				
 				<button class="botoes" value="${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
@@ -284,20 +284,20 @@ const listarPropriedade = async() => {
 listarPropriedade()
 
 
-contrato.on("event_registration", async (owner) => {
-	if (owner == await signer.getAddress()){
-		location.reload()
-	}
-})
+// contrato.on("event_registration", async (owner) => {
+// 	if (owner == await signer.getAddress()){
+// 		window.alert("Uma nova propriedade foi registrada");
+// 	}
+// })
 
-contrato.on("event_buy", async (owner, buyer) => {
-	if (owner == await signer.getAddress() || buyer == await signer.getAddress()){
-		location.reload()
-	}
-})
+// contrato.on("event_buy", async (owner, buyer) => {
+// 	if (owner == await signer.getAddress() || buyer == await signer.getAddress()){
+// 		window.location.href = '../propriedades.html'
+// 	}
+// })
 
 contrato.on("event_changed_status", async (owner) => {
 	if (owner == await signer.getAddress()){
-		location.reload()
+		window.alert("O status de sua propriedade foi alterada");
 	}
 })

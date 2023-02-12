@@ -266,7 +266,7 @@ const listarPropriedade = async() => {
                 </p>
                 <h4>Preço (Eth):</h4>
                 <p>
-                ${parseInt((prop._lamount._hex/ (10**18)), 16)}
+                ${parseInt(prop._lamount._hex, 16)/ (10**18)}
                 </p>
 				<h4>Contato do Vendedor:</h4>
 				<p>
@@ -284,13 +284,13 @@ listarPropriedade()
 
 //btn_enviar.addEventListener("click", compraPropriedade);
 contrato.on("event_registration", async () => {
-	location.reload()
+	window.location.href = '../venda.html'
 })
 
 contrato.on("event_buy", async () => {
-	location.reload()
+	window.location.href = '../venda.html'
 })
 
 contrato.on("event_changed_status", async () => {
-	location.reload()
+	window.location.href = '../venda.html'
 })

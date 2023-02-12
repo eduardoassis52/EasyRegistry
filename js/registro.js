@@ -231,7 +231,7 @@ const registraPropriedade = async() => {
 
 
 	console.log("Endereco: "  + signer.getAddress() + " Adress: " + address.value + " Preço :" + price.value + " Descricao: " +   description.value + " Title: " + title.value + " Path: " + path.value);
-    bool = await contrato.Registration(signer.getAddress(), address.value, BigInt(price.value * (10**18)),  description.value, title.value, path.value, contato.value, escritura.value )
+    bool = await contrato.Registration(signer.getAddress(), address.value, BigInt(price.value * (10**18)),  description.value, title.value, path.value, contato.value )
 	if (bool) {
 		btn_enviar.value = "Enviar";
         title.value = ""
