@@ -12,7 +12,6 @@ contract LandRegistry {
     string description;
     string image;
     string contato;
-    string escritura;
 
     address owner;
 
@@ -24,7 +23,7 @@ contract LandRegistry {
 
     constructor(address payable _id, string memory _laddress, uint256 _lamount, uint256 _key,
         bool _isAvailable, string memory _description, string memory _title,
-        string memory _image, string memory _contato,  string memory _escritura){
+        string memory _image, string memory _contato){
             id = _id;
             laddress = _laddress;
             lamount = _lamount;
@@ -34,12 +33,11 @@ contract LandRegistry {
             title = _title;
             image = _image;
             contato = _contato;
-            escritura = _escritura;
             owner = msg.sender;
     }
 
-    function get() view onlyOwner() public returns(address payable, string memory, uint256, uint256, bool, string memory, string memory, string memory, string memory, string memory){
-        return (id, laddress, lamount, key, isAvailable, description, title, image, contato, escritura);
+    function get() view onlyOwner() public returns(address payable, string memory, uint256, uint256, bool, string memory, string memory, string memory, string memory){
+        return (id, laddress, lamount, key, isAvailable, description, title, image, contato);
     }
 
     function get_isAvailable() view onlyOwner() public returns(bool){
@@ -75,7 +73,7 @@ contract LandRegistryFactory {
     //Events
     event event_registration(address owner);
     event event_buy(address owner, address buyer);
-    event event_changed_status(address owner);
+    event event_changed_status(address owner, uint256 _id);
 
     //Atributos
     LandRegistry[] lands;
@@ -83,6 +81,11 @@ contract LandRegistryFactory {
     //Modifiers
     modifier landowner(uint256 _id) {
         require(msg.sender != lands[_id].get_id(),"Nao pode comprar sua propria propriedade");
+        _;
+    }
+
+    modifier avaliable(uint256 _id) {
+        require((lands[_id].get_isAvailable()),"A propriedade nao esta a venda");
         _;
     }
 
@@ -98,8 +101,7 @@ contract LandRegistryFactory {
         string memory _description,
         string memory _title,
         string memory _image,
-        string memory _contato,
-        string memory _escritura
+        string memory _contato
     ) public returns (bool) {
         LandRegistry terra = new LandRegistry(
             _id,
@@ -110,17 +112,15 @@ contract LandRegistryFactory {
             _description,
             _title,
             _image,
-            _contato,
-            _escritura
+            _contato
         );
         lands.push(terra);//Adiciona a terra as propriedades do contrato
         emit event_registration(_id);//Envia evonto de registro 
         return true;
     }
 
-    function buyProperty(uint256 _id) public payable landowner(_id){
-        require((lands[_id].get_isAvailable()));
-        require(msg.value >= (lands[_id].get_lamount()));//
+    function buyProperty(uint256 _id) public payable landowner(_id) avaliable(_id) {
+        require(msg.value >= (lands[_id].get_lamount()));
         address payable oldOwner = lands[_id].get_id();
         oldOwner.transfer(
             lands[_id].get_lamount()
@@ -147,8 +147,7 @@ contract LandRegistryFactory {
             string memory _decription,      
             string memory title,
             string memory image,
-            string memory contato,
-            string memory escritura
+            string memory contato
 
         )
     {
@@ -160,6 +159,6 @@ contract LandRegistryFactory {
     function mudaStatusCasa(uint256 _id) public{
         bool status = lands[_id].get_isAvailable();
         lands[_id].set_isAvailable(!status);
-        emit event_changed_status(lands[_id].get_id());
+        emit event_changed_status(lands[_id].get_id(), _id);
     }
 }
