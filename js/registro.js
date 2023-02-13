@@ -217,7 +217,6 @@ const registraPropriedade = async() => {
 	const contato = document.querySelector("#contato");
 
     // update button value
-    btn_enviar.value = "...";
 	
     bool = await contrato.Registration(signer.getAddress(), address.value, BigInt(price.value * (10**18)),  description.value, title.value, path.value, contato.value )
 	if (bool) {
@@ -227,7 +226,6 @@ const registraPropriedade = async() => {
         description.value = ""
         price.value = ""
         path.value = ""
-        escritura.value = ""
         contato.value = ""        
 		return
 	} else {

@@ -216,6 +216,9 @@ const signer = provider.getSigner(accounts[0]);
 const contrato = new ethers.Contract(Vote_Contract_Address, Vote_Contract_ABI, signer);
 
 const container = document.getElementById("area-propriedades");
+const pro_recentes = document.getElementById("recentes");
+
+let enderecoOwner;
 
 class propriedade{   
     constructor(title, endereco, descricao, preco , pathImagem, data, disponivelVenda){
@@ -233,7 +236,10 @@ const trocaStatusPropriedade = async(event) => {
 	
 
 	console.log(event.target.value)
+	var botao = "botao"+event.target.value
 
+	document.getElementById(botao).disabled = true;
+	document.getElementById(botao).textContent  = "Em análise"
 	
     bool = await contrato.mudaStatusCasa(event.target.value)
 	if (bool) {
@@ -252,7 +258,8 @@ const listarPropriedade = async() => {
     console.log(properties_list)
     for (i=0; i<properties_list.length; i++){
         prop = await contrato.landInfo(i)
-		console.log("Owner: " + prop._owner + " - Adress: " +  await signer.getAddress() )
+
+		enderecoOwner = await signer.getAddress();
 
 		if(prop._owner === await signer.getAddress()){
 			console.log(prop)
@@ -273,31 +280,51 @@ const listarPropriedade = async() => {
 				${parseInt(prop._lamount._hex, 16)/ (10**18)}
 				</p>
 				
-				<button class="botoes" value="${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
+				<button class="botoes" value="${i}" id="botao${i}" onClick="trocaStatusPropriedade(event)" >${prop._isAvaliable ?  "Não desejo mais vender" : "Vender casa"}</button>
 				</div>
 			`;	
 		}
+
+		if (prop._isAvaliable) {
+			pro_recentes.innerHTML += ` 
+				
+			<div class="propriedades-lateral">
+				<p>${prop.title}.</p>
+				<a href="venda.html">Leia mais</a>
+			</div>
+			
+			`;
+		}
+
     }
+
+
+
+
 
 }
 
 listarPropriedade()
 
 
-// contrato.on("event_registration", async (owner) => {
-// 	if (owner == await signer.getAddress()){
-// 		window.alert("Uma nova propriedade foi registrada");
-// 	}
-// })
+contrato.on("event_registration", (owner) => {
+	if (owner == enderecoOwner){
+		window.alert("Uma nova propriedade foi registrada com sucesso")
+		window.location.reload()
+	}
+})
 
-// contrato.on("event_buy", async (owner, buyer) => {
-// 	if (owner == await signer.getAddress() || buyer == await signer.getAddress()){
-// 		window.location.href = '../propriedades.html'
-// 	}
-// })
+contrato.on("event_buy",  (owner, buyer) => {
+	if (owner ==  enderecoOwner || buyer ==  enderecoOwner){
+		window.location.reload()
+	}
+})
 
-// contrato.on("event_changed_status", async (owner) => {
-// 	if (owner == await signer.getAddress()){
-// 		window.alert("O status de sua propriedade foi alterada");
-// 	}
-// })
+contrato.on("event_changed_status",  (owner, id) => {
+	if (owner ==  enderecoOwner){
+		window.location.reload()
+
+		var botao = "botao"+id
+		document.getElementById(botao).disabled = true;
+	}
+})

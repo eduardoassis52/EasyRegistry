@@ -206,6 +206,7 @@ const signer = provider.getSigner(accounts[0]);
 const contrato = new ethers.Contract(Vote_Contract_Address, Vote_Contract_ABI, signer);
 
 const container = document.getElementById("area-propriedades");
+const pro_recentes = document.getElementById("recentes");
 
 class propriedade{   
     constructor(title, endereco, descricao, preco , pathImagem, data, disponivelVenda){
@@ -266,21 +267,31 @@ const listarPropriedade = async() => {
                 <button value="${i}" onClick="compraPropriedade(event)" class="botoes">Comprar</button>
                 </div>
             `;
+
+			pro_recentes.innerHTML += ` 
+				
+			<div class="propriedades-lateral">
+				<p>${prop.title}.</p>
+				<a href="venda.html">Leia mais</a>
+			</div>
+			
+			`;
         }
     }
 }
 
 listarPropriedade()
 
-//btn_enviar.addEventListener("click", compraPropriedade);
-// contrato.on("event_registration", async () => {
-// 	window.location.href = '../venda.html'
-// })
 
-// contrato.on("event_buy", async () => {
-// 	window.location.href = '../venda.html'
-// })
+contrato.on("event_registration", (owner) => {
+	window.location.reload()
 
-// contrato.on("event_changed_status", async () => {
-// 	window.location.href = '../venda.html'
-// })
+})
+
+contrato.on("event_buy",  (owner, buyer) => {
+	window.location.reload()
+})
+
+contrato.on("event_changed_status",  (owner, id) => {
+	window.location.reload()
+})

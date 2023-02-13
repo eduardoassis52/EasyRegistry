@@ -168,5 +168,16 @@ textarea {
 	pointer-events: none;
 }
 
+.botoes[disabled]{
+	background-color: #e05a5a;
+	margin-top: 20px;
+	padding: 10px 20px;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+  }
+  
 
 
